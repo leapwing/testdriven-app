@@ -9,7 +9,7 @@ class App extends Component {
   // eslint-disable-next-line
   constructor() {
     super();
-    this.state = { users: [], username: "test", email: "" };
+    this.state = { users: [], username: "", email: "" };
     this.addUser = this.addUser.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -23,7 +23,7 @@ class App extends Component {
       .get(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`)
       .then(res => {
         this.setState({ users: res.data.data.users });
-        // console.log(this.state.users);
+        console.log(this.state.users);
       })
       .catch(err => {
         console.log(err);
@@ -39,9 +39,6 @@ class App extends Component {
   handleChange(event) {
     const obj = {};
     obj[event.target.name] = event.target.value;
-    console.log(event.target.name);
-    console.log(event.target.value);
-
     this.setState(obj);
   }
 
