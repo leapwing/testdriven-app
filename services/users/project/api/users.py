@@ -30,7 +30,7 @@ def add_user():
     post_data = request.get_json()
     response_object = {
         'status': 'fail',
-        'message': 'Invalid payload.'
+        'message': 'Invalid payload.',
     }
     if not post_data:
         return jsonify(response_object), 400
