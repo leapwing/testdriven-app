@@ -6,9 +6,9 @@ class Logout extends Component {
 		this.props.logoutUser();
 	}
 	render() {
-		if (this.props.isAuthenticated) {
-			return <Redirect to="/" />;
-		}
+		// if (this.props.isAuthenticated) {
+		// 	return <Redirect to="/" />;
+		// }
 		return (
 			<div>
 				<p>
