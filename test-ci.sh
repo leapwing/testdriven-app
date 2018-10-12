@@ -4,7 +4,7 @@ env=$1
 fails=""
 
 inspect() {
-    if [ $1 -ne 0]; then
+    if [ $1 -ne 0 ]; then
         fails="${fails} $2"
     fi
 }
