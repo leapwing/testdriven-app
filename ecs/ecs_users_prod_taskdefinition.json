@@ -1,0 +1,38 @@
+{
+    "containerDefinitions": [{
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-group": "testdriven-users-prod",
+                "awslogs-region": "ap-southeast-1"
+            }
+        },
+        "portMappings": [{
+            "hostPort": 0,
+            "protocol": "tcp",
+            "containerPort": 5000
+        }],
+        "environment": [{
+                "name": "APP_SETTINGS",
+                "value": "project.config.ProductionConfig"
+            },
+            {
+                "name": "DATABASE_TEST_URL",
+                "value": "postgres://postgres:postgres@users-db:5432/users_test"
+            },
+            {
+                "name": "DATABASE_URL",
+                "value": "%s"
+            },
+            {
+                "name": "SECRET_KEY",
+                "value": "%s"
+            }
+        ],
+        "memoryReservation": 300,
+        "image": "%s.dkr.ecr.ap-southeast-1.amazonaws.com/test-driven-users:production",
+        "essential": true,
+        "name": "users"
+    }],
+    "family": "testdriven-users-prod-td"
+}
