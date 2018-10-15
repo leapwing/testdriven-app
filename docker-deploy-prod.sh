@@ -20,6 +20,7 @@ then
             else
                 echo "Failed to register task definition"
                 return 1
+            fi
         }
 
         deploy_cluster() {
