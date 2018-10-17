@@ -60,7 +60,7 @@
                 "logDriver": "awslogs",
                 "options": {
                     "awslogs-group": "testdriven-users_db-stage",
-                    "awslogs-region": "us-east-1"
+                    "awslogs-region": "ap-southeast-1"
                 }
             }
         }
