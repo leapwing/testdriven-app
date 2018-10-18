@@ -38,7 +38,7 @@ elif [[ "${env}" == "staging" ]]; then
     e2e stage
 elif [[ "${env}" == "production" ]]; then
     echo "Running e2e tests!"
-    e2e prod
+    e2e stage
 else
     echo "Running client and server-side tests!"
     dev
