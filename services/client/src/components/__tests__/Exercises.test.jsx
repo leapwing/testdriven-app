@@ -14,7 +14,7 @@ test('Exercises renders properly when not authenticated', () => {
 	const alert = wrapper.find('.notification');
 	expect(alert.length).toBe(1);
 	const alertMessage = wrapper.find('.notification > span');
-	expect(alertMessage.get(0).props.children).toContain('Please log in to submit an exerise.');
+	expect(alertMessage.get(0).props.children).toContain('Please log in to submit an exercise.');
 });
 
 test('Exercises renders properly when authenticated', () => {

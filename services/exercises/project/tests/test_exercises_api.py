@@ -11,7 +11,8 @@ class TestExercisesService(BaseTestCase):
     def test_all_exercises(self):
         """Ensure get all exercises behaves correctly."""
         add_exercise()
-        add_exercise('Just a sample', 'print("Hello, World")', 'Hello, World!')
+        add_exercise('Just a sample',
+                     'print("Hello, World!")', 'Hello, World!')
         with self.client:
             response = self.client.get('/exercises')
             data = json.loads(response.data.decode())
@@ -27,13 +28,13 @@ class TestExercisesService(BaseTestCase):
                 'sum(2,2)', data['data']['exercises'][0]['test_code']
             )
             self.assertIn(
-                'print("Hello, World!)', data['data']['exercises'][1]['test_code']
+                'print("Hello, World!")', data['data']['exercises'][1]['test_code']
             )
             self.assertIn(
                 '4', data['data']['exercises'][0]['test_code_solution']
             )
             self.assertIn(
-                'Hello, World!Hello, World!', data['data']['exercises'][1]['test_code_solution']
+                'Hello, World!', data['data']['exercises'][1]['test_code_solution']
             )
             self.assertIn('success', data['status'])
 

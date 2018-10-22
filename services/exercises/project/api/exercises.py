@@ -14,7 +14,7 @@ def get_all_exercises():
     response_object = {
         'status': 'success',
         'data': {
-            'exercises': [ex.tojson() for ex in Exercise.query.all()]
+            'exercises': [ex.to_json() for ex in Exercise.query.all()]
         }
     }
     return jsonify(response_object), 200
