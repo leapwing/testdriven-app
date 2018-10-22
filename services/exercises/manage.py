@@ -1,16 +1,21 @@
+# manage.py
+
+
 import unittest
 import coverage
+
 from flask.cli import FlaskGroup
 
 from project import create_app, db
-from project.api.models import User
+from project.api.models import Exercise
+
 
 COV = coverage.coverage(
     branch=True,
     include='project/*',
     omit=[
         'project/tests/*',
-        'project/config.py'
+        'project/config.py',
     ]
 )
 COV.start()
@@ -21,7 +26,7 @@ cli = FlaskGroup(create_app=create_app)
 
 @cli.command()
 def test():
-    """Runs the tests without code coverage."""
+    """ Runs the tests without code coverage"""
     tests = unittest.TestLoader().discover('project/tests', pattern='test*.py')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
@@ -31,7 +36,7 @@ def test():
 
 @cli.command()
 def cov():
-    """Runs the tests with code coverage."""
+    """Runs the unit tests with coverage."""
     tests = unittest.TestLoader().discover('project/tests')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
@@ -50,20 +55,6 @@ def recreate_db():
     """Recreate the database."""
     db.drop_all()
     db.create_all()
-    db.session.commit()
-
-
-@cli.command('seed_db')
-def seed_db():
-    """Seeds the database."""
-    db.session.add(User(
-        username='leapwing',
-        email="leapwing@gmail.com",
-        password="greaterthaneight"))
-    db.session.add(User(
-        username='kennyhuang',
-        email="kennyhuang@aicipc.com.tw",
-        password="greaterthaneight"))
     db.session.commit()
 
 

@@ -16,6 +16,10 @@ server() {
     inspect $? users
     docker-compose -f docker-compose-dev.yml run users flake8 --ignore=E501 project
     inspect $? users-lint
+    docker-compose -f docker-compose-dev.yml run exercises python manage.py test
+    inspect $? exercises
+    docker-compose -f docker-compose-dev.yml run exercises flake8 --ignore=E501 project
+    inspect $? exercises-lint
     docker-compose -f docker-compose-dev.yml down
 }
 
@@ -28,7 +32,6 @@ client() {
 
 e2e() {
     docker-compose -f docker-compose-stage.yml up -d --build
-    # docker-compose -f docker-compose-stage.yml run users python manage.py recreate-db
     docker-compose -f docker-compose-stage.yml run users python manage.py recreate_db
     ./node_modules/.bin/cypress run --config baseUrl=http://localhost
     inspect $? e2e
@@ -44,6 +47,10 @@ all() {
     inspect $? users-lint
     docker-compose -f docker-compose-dev.yml run client npm test -- --coverage
     inspect $? client
+    docker-compose -f docker-compose-dev.yml run exercises python manage.py test
+    inspect $? exercises
+    docker-compose -f docker-compose-dev.yml run exercises flake8 --ignore=E501 project
+    inspect $? exercises-lint
     docker-compose -f docker-compose-dev.yml down
     e2e
 }
