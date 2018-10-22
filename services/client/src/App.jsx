@@ -9,6 +9,7 @@ import Form from './components/forms/Form';
 import Logout from './components/Logout';
 import UserStatus from './components/UserStatus';
 import Message from './components/Message';
+import Footer from './components/Footer';
 
 class App extends Component {
 	constructor() {
@@ -89,9 +90,10 @@ class App extends Component {
 							<div className="column is-half">
 								<br />
 								<Switch>
+									<Route exact path="/" render={() => <p>Something</p>} />
 									<Route
 										exact
-										path="/"
+										path="/all-users"
 										render={() => (
 											<div>
 												<UsersList users={this.state.users} />
@@ -143,6 +145,7 @@ class App extends Component {
 						</div>
 					</div>
 				</section>
+				<Footer />
 			</div>
 		);
 	}
