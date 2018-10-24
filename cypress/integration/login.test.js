@@ -14,12 +14,16 @@ describe('Login', () => {
       .get('.validation-list > .error').first().contains('Email is required.')
   });
   it('should allow a user to sign in', () => {
+    cy.server()
+    cy.route('POST', 'auth/register').as('createUser');
+    cy.route('POST', 'auth/login').as('loginUser');
     // register user
     cy.visit('/register')
       .get('input[name="username"]').type(username)
       .get('input[name="email"]').type(email)
       .get('input[name="password"]').type(password)
-      .get('input[type="submit"]').click();
+      .get('input[type="submit"]').click()
+      .wait('@createUser');
     // log a user out
     cy.get('.navbar-burger').click();
     cy.contains('Log Out').click();
@@ -27,10 +31,11 @@ describe('Login', () => {
     cy.get('a').contains('Log In').click()
       .get('input[name="email"]').type(email)
       .get('input[name="password"]').type(password)
-      .get('input[type="submit"]').click();
+      .get('input[type="submit"]').click()
+      .wait('@loginUser')
     // assert user is redirected to '/'
     cy.get('.notification.is-success').contains('Welcome!')
-    cy.wait(500)
+    // cy.wait(500)
     cy.contains('Users').click();
     // assert './all-users' is displayed properly
     // cy.get('.navbar-burger').click();
@@ -59,10 +64,13 @@ describe('Login', () => {
     });
   });
   it('should throw an error if the credentials are incorrect', () => {
+    cy.server()
+    cy.route('POST', 'auth/login').as('loginUser');
     cy.visit('/login')
       .get('input[name="email"]').type('incorrect@email.com')
       .get('input[name="password"]').type(password)
       .get('input[type="submit"]').click()
+      .wait('@loginUser');
     cy.contains('All Users').should('not.be.visible')
     cy.contains('Login');
     cy.get('.navbar-burger').click();
@@ -79,7 +87,7 @@ describe('Login', () => {
       .get('input[name="email"]').type(email)
       .get('input[name="password"]').type('incorrectpassword')
       .get('input[type="submit"]').click()
-      .wait(100);
+      .wait('@loginUser');
     cy.contains('All Users').should('not.be.visible')
     cy.contains('Login');
     cy.get('.navbar-menu').within(() => {

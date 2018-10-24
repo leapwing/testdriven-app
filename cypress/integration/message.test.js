@@ -6,11 +6,15 @@ const password = 'greaterthanten';
 
 describe('Message', () => {
   it('should display flash message correctly', () => {
+    cy.server()
+    cy.route('POST', 'auth/register').as('createUser');
+    cy.route('POST', 'auth/login').as('loginUser');
     cy.visit('/register')
       .get('input[name="username"]').type(username)
       .get('input[name="email"]').type(email)
       .get('input[name="password"]').type(password)
       .get('input[type="submit"]').click()
+      .wait('@createUser');
     cy.get('.notification.is-success').contains('Welcome!')
       .get('.delete').click()
       .get('.notification.is-success').should('not.be.visible')
@@ -20,6 +24,7 @@ describe('Message', () => {
       .get('input[name="email"]').type('incorrect@email.com')
       .get('input[name="password"]').type(password)
       .get('input[type="submit"]').click()
+      .wait('@loginUser');
     cy
       .get('.notification.is-success').should('not.be.visible')
       .get('.notification.is-danger').contains('Login failed.')
@@ -27,7 +32,7 @@ describe('Message', () => {
       .get('input[name="email"]').type(email)
       .get('input[name="password"]').type(password)
       .get('input[type="submit"]').click()
-      .wait(100);
+      .wait('@loginUser');
     cy
       .get('.notification.is-success').contains('Welcome!')
       .get('.notification.is-danger').should('not.be.visible')
@@ -37,7 +42,7 @@ describe('Message', () => {
       .get('input[name="email"]').type(email)
       .get('input[name="password"]').type(password)
       .get('input[type="submit"]').click()
-      .wait(100);
+      .wait('@loginUser');
     cy
       .get('.notification.is-success').contains('Welcome!')
       .wait(4000)
