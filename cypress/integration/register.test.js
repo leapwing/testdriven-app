@@ -60,7 +60,7 @@ describe('Register', () => {
             .get('input[name="username"]').type(username)
             .get('input[name="email"]').type(`${email}unique`)
             .get('input[name="password"]').type(password)
-            .get('input[type="submit"]').click()
+            .get('input[type="submit"]').click();
         cy.contains('All Users').should('not.be.visible');
         cy.contains('Register');
         cy.get('.navbar-burger').click();
