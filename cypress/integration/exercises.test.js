@@ -32,7 +32,7 @@ describe('Exercises', () => {
 
         // assert user can submit an exercise
         cy.get('button').contains('Run Code').click()
-            .wait(200)
+            .wait(500)
             .get('h5 > .grade-text').contains('Incorrect!');
     })
 })
