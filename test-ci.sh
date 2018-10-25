@@ -15,18 +15,21 @@ dev() {
     inspect $? users
     docker-compose -f docker-compose-dev.yml run users flake8 --ignore=E501 project
     inspect $? users-lint
+    docker-compose -f docker-compose-dev.yml run exercises python manage.py test
+    inspect $? exercises
+    docker-compose -f docker-compose-dev.yml run exercises flake8 --ignore=E501 project
+    inspect $? exercises-lint
     docker-compose -f docker-compose-dev.yml run client npm test -- --coverage
     inspect $? client
     docker-compose -f docker-compose-dev.yml down
 }
 
 e2e() {
-    docker-compose -f docker-compose-$1.yml up -d --build
-    docker-compose -f docker-compose-$1.yml run users python manage.py recreate-db
-    # docker-compose -f docker-compose-prod.yml run users python manage.py recreate_db
-    ./node_modules/.bin/cypress run --config baseUrl=http://localhost
+    docker-compose -f docker-compose-stage.yml up -d --build
+    # docker-compose -f docker-compose-stage.yml run users python manage.py recreate_db
+    ./node_modules/.bin/cypress run --config baseUrl=http://localhost --env REACT_APP_API_GATEWAY_URL=$REACT_APP_API_GATEWAY_URL,LOAD_BALANCER_STAGE_DNS_NAME=$LOAD_BALANCER_STAGE_DNS_NAME
     inspect $? e2e
-    docker-compose -f docker-compose-$1.yml down  
+    docker-compose -f docker-compose-stage.yml down  
 }
 
 # run appropriate tests

@@ -20,27 +20,6 @@ cli = FlaskGroup(create_app=create_app)
 
 
 @cli.command()
-def recreate_db():
-    db.drop_all()
-    db.create_all()
-    db.session.commit()
-
-
-@cli.command()
-def seed_db():
-    """Seeds the database."""
-    db.session.add(User(
-        username='leapwing',
-        email="leapwing@gmail.com",
-        password="greaterthaneight"))
-    db.session.add(User(
-        username='kennyhuang',
-        email="kennyhuang@aicipc.com.tw",
-        password="greaterthaneight"))
-    db.session.commit()
-
-
-@cli.command()
 def test():
     """Runs the tests without code coverage."""
     tests = unittest.TestLoader().discover('project/tests', pattern='test*.py')
@@ -64,6 +43,28 @@ def cov():
         COV.erase()
         return 0
     return 1
+
+
+@cli.command('recreate_db')
+def recreate_db():
+    """Recreate the database."""
+    db.drop_all()
+    db.create_all()
+    db.session.commit()
+
+
+@cli.command('seed_db')
+def seed_db():
+    """Seeds the database."""
+    db.session.add(User(
+        username='leapwing',
+        email="leapwing@gmail.com",
+        password="greaterthaneight"))
+    db.session.add(User(
+        username='kennyhuang',
+        email="kennyhuang@aicipc.com.tw",
+        password="greaterthaneight"))
+    db.session.commit()
 
 
 if __name__ == '__main__':

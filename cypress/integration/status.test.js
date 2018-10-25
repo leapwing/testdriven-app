@@ -14,13 +14,15 @@ describe('Status', () => {
             .get('a').contains('Log In');
     });
     it('should display user info if a user is logged in', () => {
+        cy.server()
+        cy.route('POST', 'auth/register').as('createUser');
         //register
         cy.visit('/register')
             .get('input[name="username"]').type(username)
             .get('input[name="email"]').type(email)
             .get('input[name="password"]').type(password)
-            .get('input[type="submit"]').click();
-        cy.wait(800);
+            .get('input[type="submit"]').click()
+            .wait('@createUser');
         cy.visit('/status');
         cy.get('.navbar-burger').click();
         cy.contains('User Status').click();

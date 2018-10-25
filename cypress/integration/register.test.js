@@ -21,8 +21,17 @@ describe('Register', () => {
             .get('input[name="password"]').type(password)
             .get('input[type="submit"]').click()
 
+        cy.get('.notification.is-success').contains('Welcome!')
+        cy.get('.navbar-burger').click();
+        cy.contains('Users').click();
+        cy.location().should(loc => {
+            expect(loc.pathname).to.eq('/all-users')
+        });
         cy.contains('All Users');
-        cy.contains(username);
+        cy.get('table')
+            .find('tbody > tr').last()
+            .find('td').contains(username);
+
         cy.get('.navbar-burger').click();
         cy.get('.navbar-menu').within(() => {
             cy.get('.navbar-item').contains('User Status')
@@ -51,7 +60,7 @@ describe('Register', () => {
             .get('input[name="username"]').type(username)
             .get('input[name="email"]').type(`${email}unique`)
             .get('input[name="password"]').type(password)
-            .get('input[type="submit"]').click()
+            .get('input[type="submit"]').click();
         cy.contains('All Users').should('not.be.visible');
         cy.contains('Register');
         cy.get('.navbar-burger').click();
