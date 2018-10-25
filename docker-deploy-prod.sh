@@ -64,7 +64,7 @@ then
             service="testdriven-exercises-prod-service"
             template="ecs_exercises_prod_taskdefinition.json"
             task_template=$(cat "ecs/$template")
-            task_def=$(printf "$task_template" "tbd" $AWS_ACCOUNT_ID)
+            task_def=$(printf "$task_template" $AWS_RDS_EXERCISES_URI $AWS_ACCOUNT_ID)
             echo "$task_def"
             register_definition
             # update_service
