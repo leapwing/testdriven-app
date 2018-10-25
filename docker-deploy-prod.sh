@@ -24,7 +24,14 @@ then
         }
 
         update_service() {
-            if [[ $(aws ecs update-service --cluster $cluster --service $service --task-definition $revision | $JQ '.service.taskDefinition') != $revision ]]; then
+            update_def=$(aws ecs update-service --cluster $cluster --service $service --task-definition $revision)
+            update_result=$(update_def | $JQ '.service.taskDefinition')
+            if [[ update_result != $revision ]]; then
+            # if [[ $(aws ecs update-service --cluster $cluster --service $service --task-definition $revision | $JQ '.service.taskDefinition') != $revision ]]; then
+                update_print=$(printf "$update_def")
+                echo "$update_print"
+                update_print=$(printf "$update_result")
+                echo "$update_print"
                 echo "Error updating service."
                 return 1
             fi
