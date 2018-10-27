@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import AceEditor from 'react-ace';
-import 'brace/mode/python';
-import 'brace/theme/solarized_dark';
+
+import Exercise from './Exercise';
 
 class Exercises extends Component {
 	constructor(props) {
@@ -30,23 +29,6 @@ class Exercises extends Component {
 			.catch((err) => {
 				console.log(err);
 			});
-		// const exercises = [
-		// 	{
-		// 		id: 0,
-		// 		body: 'Define a function called sum that takes two integers as arguments and returns their sum.'
-		// 	},
-		// 	{
-		// 		id: 1,
-		// 		body:
-		// 			'Define a function called reverse that takes a string as an argument and returns the string in reversed order.'
-		// 	},
-		// 	{
-		// 		id: 2,
-		// 		body:
-		// 			'Define a function called factorial that takes a random number as an argument and then returns the factorial of that given number.'
-		// 	}
-		// ];
-		// this.setState({ exercises: exercises });
 	}
 
 	componentDidMount() {
@@ -101,67 +83,14 @@ class Exercises extends Component {
 						<span>Please log in to submit an exercise.</span>
 					</div>
 				)}
-				{this.state.exercises.length && (
-					<div key={this.state.exercises[0].id}>
-						<h5 className="title is-5">{this.state.exercises[0].body}</h5>
-						<AceEditor
-							mode="python"
-							theme="solarized_dark"
-							name={this.state.exercises[0].id.toString()}
-							onLoad={this.onLoad}
-							fontSize={14}
-							height={'175px'}
-							showPrintMargin={true}
-							showGutter={true}
-							highlightActiveLine={true}
-							value={this.state.editor.value}
-							onChange={this.onChange}
-							style={{
-								marginBottom: '10px'
-							}}
-							editorProps={{
-								$blockScrolling: Infinity
-							}}
-						/>
-						{this.props.isAuthenticated && (
-							<div>
-								<button
-									className="button is-primary"
-									onClick={this.submitExercise}
-									disabled={this.state.editor.button.isDisabled}
-								>
-									Run Code
-								</button>
-								{this.state.editor.showGrading && (
-									<h5 className="title is-5">
-										<span className="icon is-large">
-											<i className="fas fa-spinner fa-pulse" />
-										</span>
-										<span className="grade-text">Grading</span>
-									</h5>
-								)}
-								{this.state.editor.showCorrect && (
-									<h5 className="title is-5">
-										<span className="icon is-large">
-											<i className="fas fa-check" />
-										</span>
-										<span className="grade-text">Correct!</span>
-									</h5>
-								)}
-								{this.state.editor.showIncorrect && (
-									<h5 className="title is-5">
-										<span className="icon is-large">
-											<i className="fas fa-times" />
-										</span>
-										<span className="grade-text">Incorrect!</span>
-									</h5>
-								)}
-							</div>
-						)}
-
-						<br />
-						<br />
-					</div>
+				{this.state.exercises.length > 0 && (
+					<Exercise
+						exercise={this.state.exercises[0]}
+						editor={this.state.editor}
+						isAuthenticated={this.props.isAuthenticated}
+						onChange={this.onChange}
+						submitExercise={this.submitExercise}
+					/>
 				)}
 			</div>
 		);
