@@ -13,8 +13,13 @@ beforeAll(() => {
 	};
 });
 
-test('App renders without crashing', () => {
+beforeEach(() => {
 	console.log = jest.fn();
+	console.log.mockClear();
+});
+
+test('App renders without crashing', () => {
+	// console.log = jest.fn();
 	const wrapper = shallow(<App />);
 });
 

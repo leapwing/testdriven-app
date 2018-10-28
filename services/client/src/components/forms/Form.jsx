@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { registerFormRules, loginFormRules } from './form-rules';
 import FormErrors from './FormErrors';
+import PropTypes from 'prop-types';
 
 class Form extends Component {
 	state = {
@@ -200,5 +201,12 @@ class Form extends Component {
 		);
 	}
 }
+
+Form.propTypes = {
+	formType: PropTypes.string.isRequired,
+	isAuthenticated: PropTypes.bool.isRequired,
+	loginUser: PropTypes.func.isRequired,
+	createMessage: PropTypes.func.isRequired
+};
 
 export default Form;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-
+import PropTypes from 'prop-types';
 class UserStatus extends Component {
 	constructor(props) {
 		super(props);
@@ -72,5 +72,9 @@ class UserStatus extends Component {
 		);
 	}
 }
+
+UserStatus.propTypes = {
+	isAuthenticated: PropTypes.bool.isRequired
+};
 
 export default UserStatus;
