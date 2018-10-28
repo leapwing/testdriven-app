@@ -70,7 +70,7 @@ def seed_db():
     db.session.add(Exercise(
         body=('Define a function called reverse that takes a string as \
             an argument and returns the string in reversed order.'),
-        test_code='reverse(racecar)',
+        test_code='reverse("racecar")',
         test_code_solution='racecar'
     ))
     db.session.add(Exercise(
