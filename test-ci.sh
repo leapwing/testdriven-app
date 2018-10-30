@@ -19,6 +19,10 @@ dev() {
     inspect $? exercises
     docker-compose -f docker-compose-dev.yml run exercises flake8 --ignore=E501 project
     inspect $? exercises-lint
+    docker-compose -f docker-compose-dev.yml run scores python manage.py test
+    inspect $? scores
+    docker-compose -f docker-compose-dev.yml run scores flake8 --ignore=E501 project
+    inspect $? scores-lint
     docker-compose -f docker-compose-dev.yml run client npm test -- --coverage
     inspect $? client
     docker-compose -f docker-compose-dev.yml down
@@ -29,17 +33,17 @@ e2e() {
     docker-compose -f docker-compose-stage.yml run users python manage.py recreate_db
     ./node_modules/.bin/cypress run --config baseUrl=http://localhost --env REACT_APP_API_GATEWAY_URL=$REACT_APP_API_GATEWAY_URL,LOAD_BALANCER_DNS_NAME=$LOAD_BALANCER_DNS_NAME
     inspect $? e2e
-    docker-compose -f docker-compose-stage.yml down  
+    docker-compose -f docker-compose-stage.yml down
 }
 
 # run appropriate tests
 if [[ "${env}" == "development" ]]; then
     echo "Running client and server-side tests!"
     dev
-elif [[ "${env}" == "staging" ]]; then
+    elif [[ "${env}" == "staging" ]]; then
     echo "Running e2e tests!"
     e2e stage
-elif [[ "${env}" == "production" ]]; then
+    elif [[ "${env}" == "production" ]]; then
     echo "Running e2e tests!"
     e2e production
 else
