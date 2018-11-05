@@ -19,6 +19,10 @@ env:
   EXERCISES_REPO: ${MAIN_PREO}#${TRAVIS_BRANCH}:services/exercises
   EXERCISES_DB: test-driven-exercises_db
   EXERCISES_DB_REPO: ${MAIN_PREO}#${TRAVIS_BRANCH}:services/exercises/project/db
+  SCORES: test-driven-scores
+  SCORES_REPO: ${MAIN_PREO}#${TRAVIS_BRANCH}:services/scores
+  SCORES_DB: test-driven-scores_db
+  SCORES_DB_REPO: ${MAIN_PREO}#${TRAVIS_BRANCH}:services/scores/project/db
   SECRET_KEY: my_precious
 
 before_install:
@@ -30,9 +34,11 @@ before_install:
 before_script:
   - export REACT_APP_USERS_SERVICE_URL=http://127.0.0.1
   - export REACT_APP_EXERCISES_SERVICE_URL=http://127.0.0.1
+  - export REACT_APP_SCORES_SERVICE_URL=http://127.0.0.1
   - export REACT_APP_API_GATEWAY_URL=https://461dic33mj.execute-api.ap-southeast-1.amazonaws.com/v1/execute
   - if [[ "$TRAVIS_BRANCH" == "staging" ]]; then export LOAD_BALANCER_DNS_NAME=http://testdriven-staging-alb-681387798.ap-southeast-1.elb.amazonaws.com; fi
   - if [[ "$TRAVIS_BRANCH" == "production" ]]; then export LOAD_BALANCER_DNS_NAME=http://testdriven-production-alb-692597783.ap-southeast-1.elb.amazonaws.com; fi
+  - echo $LOAD_BALANCER_DNS_NAME
   - npm install
 
 script:
@@ -41,5 +47,5 @@ script:
 after_success:
   - bash ./docker-push.sh
   # - bash ./docker-deploy-stage.sh
-  # - bash ./docker-deploy-prod.sh
+  - bash ./docker-deploy-prod.sh
 

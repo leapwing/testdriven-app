@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const UsersList = (props) => {
 	return (
@@ -17,21 +18,26 @@ const UsersList = (props) => {
 					</tr>
 				</thead>
 				<tbody>
-					{props.users.map((user) => {
-						return (
-							<tr key={user.id}>
-								<td>{user.id}</td>
-								<td>{user.email}</td>
-								<td>{user.username}</td>
-								<td>{String(user.active)}</td>
-								<td>{String(user.admin)}</td>
-							</tr>
-						);
-					})}
+					{props.users &&
+						props.users.map((user) => {
+							return (
+								<tr key={user.id}>
+									<td>{user.id}</td>
+									<td>{user.email}</td>
+									<td>{user.username}</td>
+									<td>{String(user.active)}</td>
+									<td>{String(user.admin)}</td>
+								</tr>
+							);
+						})}
 				</tbody>
 			</table>
 		</div>
 	);
+};
+
+UsersList.propTypes = {
+	users: PropTypes.array.isRequired
 };
 
 export default UsersList;

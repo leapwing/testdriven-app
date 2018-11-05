@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 class Logout extends Component {
 	componentDidMount() {
@@ -18,5 +19,9 @@ class Logout extends Component {
 		);
 	}
 }
+
+Logout.propTypes = {
+	logoutUser: PropTypes.func.isRequired
+};
 
 export default Logout;
