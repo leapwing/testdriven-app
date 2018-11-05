@@ -42,7 +42,9 @@ describe('Index', () => {
             .get('a').contains('Log In').should('not.be.visible')
             .get('a').contains('Swagger')
             .get('a').contains('Users')
+            .get('button').contains('Run Code')
             .get('.notification.is-warning').should('not.be.visible')
             .get('.notification.is-success').should('not.be.visible');
     })
+
 });
