@@ -76,7 +76,7 @@ then
             task_def=$(printf "$task_template" $AWS_RDS_SCORES_URI $AWS_ACCOUNT_ID)
             echo "$task_def"
             register_definition
-            # update_service
+            update_service
         }
         
         configure_aws_cli
